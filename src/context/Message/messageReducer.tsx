@@ -23,6 +23,15 @@ export const reducer = (state: State, action: Action): State => {
       return state;
     }
 
+    case 'SET_MESSAGES': {
+      const messages = action.payload?.messages;
+      if (messages?.length) {
+        return { messages };
+      }
+
+      return state;
+    }
+
     case 'UPDATE_MESSAGE': {
       const updatedMessage = action.payload?.message;
       if (!updatedMessage) return state;

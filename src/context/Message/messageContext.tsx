@@ -5,6 +5,7 @@ export const MessageContext = createContext<State & Methods>({
   messages: [],
   addMessage: () => undefined,
   addMessages: () => undefined,
+  setMessages: () => undefined,
   deleteMessage: () => undefined,
   updateMessage: () => undefined,
 });
