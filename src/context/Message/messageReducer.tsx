@@ -2,11 +2,20 @@ import { State, Action } from '../../interfaces/context/message';
 
 export const reducer = (state: State, action: Action): State => {
   switch (action.type) {
-    case 'ADD_MESSAGES':
     case 'ADD_MESSAGE': {
       const newMessage = action.payload?.message;
       if (newMessage) {
         const messages = state.messages.concat(newMessage);
+        return {
+          messages,
+        };
+      }
+      return state;
+    }
+    case 'ADD_MESSAGES': {
+      const newMessages = action.payload?.messages;
+      if (newMessages?.length) {
+        const messages = state.messages.concat(...newMessages);
         return {
           messages,
         };
