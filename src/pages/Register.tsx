@@ -4,9 +4,7 @@ import {
   Flex,
   FormControl,
   FormErrorMessage,
-  FormHelperText,
   FormLabel,
-  Grid,
   Heading,
   IconButton,
   Input,
@@ -14,6 +12,7 @@ import {
   InputLeftElement,
   Progress,
   Stack,
+  useToast,
 } from '@chakra-ui/core';
 import React, { useContext, useState } from 'react';
 import { useForm } from 'react-hook-form';
@@ -23,7 +22,6 @@ import zxcvbn from 'zxcvbn';
 import LinkButton from '../components/common/LinkButton';
 import { AuthContext } from '../context/Auth/authContext';
 import { CREATE_USER } from '../graphql/user/CreateUserMutation';
-import { User } from '../interfaces/User';
 
 type FormData = {
   name: string;
@@ -33,13 +31,14 @@ type FormData = {
 };
 
 export const Register = () => {
+  const [createUser, { loading }] = useMutation(CREATE_USER);
+  const [showConfirmation, setShowConfirmation] = useState(false);
+  const [showPassword, setShowPassword] = useState(false);
+  const authContext = useContext(AuthContext);
+  const toast = useToast();
   const { register, handleSubmit, watch, errors, setError } = useForm<
     FormData
   >();
-  const authContext = useContext(AuthContext);
-  const [showPassword, setShowPassword] = useState(false);
-  const [showConfirmation, setShowConfirmation] = useState(false);
-  const [createUser, { loading }] = useMutation(CREATE_USER);
 
   if (authContext.authenticated) {
     return <Redirect to='/' />;
@@ -82,6 +81,13 @@ export const Register = () => {
       };
       const { data } = await createUser({ variables });
       const user = data.createUser;
+
+      toast({
+        duration: 1500,
+        status: 'success',
+        description: `Welcome ${user.name}`,
+        position: 'bottom-left',
+      });
 
       authContext.login(user, user.token);
     } catch (error) {
