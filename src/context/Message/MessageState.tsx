@@ -21,7 +21,7 @@ export const MessageState: FC = ({ children }) => {
     },
 
     setMessages: (messages) => {
-      dispatch({ type: 'ADD_MESSAGES', payload: { messages } });
+      dispatch({ type: 'SET_MESSAGES', payload: { messages } });
     },
 
     updateMessage: (message) => {

@@ -1,6 +1,6 @@
 import { gql } from '@apollo/client/core';
 
-export const CREATE_MESSAGE = gql`
+export const FIND_ALL_MESSAGES = gql`
   query FindAllMessages {
     findAllMessages {
       _id

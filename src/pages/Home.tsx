@@ -1,8 +1,20 @@
-import React, { useContext } from 'react';
-import { AuthContext } from '../context/Auth/authContext';
+import { useQuery } from '@apollo/client';
+import React, { useContext, useEffect } from 'react';
+import { MessageList } from '../components/Messages/List';
+import { MessageContext } from '../context/Message/messageContext';
+import { FIND_ALL_MESSAGES } from '../graphql/message/GetAllMessagesQuery';
 
 export const Home = () => {
-  const { authenticated } = useContext(AuthContext);
+  const { setMessages } = useContext(MessageContext);
+  const { data, loading } = useQuery(FIND_ALL_MESSAGES);
 
-  return <div>{authenticated ? "You're logged in" : 'Login or Register'}</div>;
+  useEffect(() => {
+    if (data) {
+      const messages = data.findAllMessages;
+      setMessages(messages);
+    }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [data]);
+
+  return <MessageList loading={loading} />;
 };
