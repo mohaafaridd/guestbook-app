@@ -4,11 +4,13 @@ export interface State {
   authenticated: boolean;
   token?: string;
   user?: User;
+  loading?: boolean;
 }
 
 export interface Methods {
   login(user: User, token: string): void;
   setUser(user: User): void;
+  getUser(): void;
   logout(): void;
 }
 
