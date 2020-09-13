@@ -4,7 +4,7 @@ import { AuthContext } from './context/Auth/authContext';
 
 const createApolloClient = () =>
   new ApolloClient({
-    uri: 'https://48p1r2roz4.sse.codesandbox.io',
+    uri: process.env.REACT_APP_API_URI,
     cache: new InMemoryCache(),
   });
 
