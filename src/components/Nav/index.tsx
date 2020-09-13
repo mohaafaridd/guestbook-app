@@ -1,6 +1,6 @@
 import React, { useContext } from 'react';
 import { AuthContext } from '../../context/Auth/authContext';
-import { Button, Grid, Heading } from '@chakra-ui/core';
+import { Grid, Heading } from '@chakra-ui/core';
 import LinkButton from '../common/LinkButton';
 
 export const Nav = () => {
@@ -9,15 +9,19 @@ export const Nav = () => {
   return (
     <Grid
       alignItems='center'
-      w='50%'
+      w={['100%', '80%', '70%', '50%']}
       mx='auto'
-      templateColumns='4fr 1fr'
+      templateColumns={['1fr', '2fr 1fr', '2fr 1fr']}
       gap={2}
       p={2}
     >
       <Heading size='lg'>Farid's Guestbook</Heading>
       {!authenticated && (
-        <Grid templateColumns='1fr 1fr' gap={2}>
+        <Grid
+          templateColumns={['1fr', '1fr 1fr']}
+          templateRows={['1fr 1fr', '1fr']}
+          gap={2}
+        >
           <LinkButton to='/login'>Login</LinkButton>
           <LinkButton to='/register' variantColor='teal'>
             Register
