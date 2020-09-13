@@ -1,3 +1,4 @@
+import { useMutation } from '@apollo/client';
 import {
   Button,
   Flex,
@@ -21,6 +22,8 @@ import validator from 'validator';
 import zxcvbn from 'zxcvbn';
 import LinkButton from '../components/common/LinkButton';
 import { AuthContext } from '../context/Auth/authContext';
+import { CREATE_USER } from '../graphql/user/CreateUserMutation';
+import { User } from '../interfaces/User';
 
 type FormData = {
   name: string;
@@ -36,9 +39,12 @@ export const Register = () => {
   const authContext = useContext(AuthContext);
   const [showPassword, setShowPassword] = useState(false);
   const [showConfirmation, setShowConfirmation] = useState(false);
+  const [createUser, { loading }] = useMutation(CREATE_USER);
+
   if (authContext.authenticated) {
     return <Redirect to='/' />;
   }
+
   const validation = {
     name: (value: string) => {
       if (value.length > 0) return true;
@@ -67,6 +73,26 @@ export const Register = () => {
     },
   };
 
+  const onSubmit = handleSubmit(async (args) => {
+    const { name, email, password } = args;
+
+    try {
+      const variables = {
+        data: { name, email, password },
+      };
+      const { data } = await createUser({ variables });
+      const user = data.createUser;
+
+      authContext.login(user, user.token);
+    } catch (error) {
+      authContext.logout();
+      const unique = error.message.includes('duplicate');
+      if (unique) {
+        setError('email', { message: 'Email is already registered' });
+      }
+    }
+  });
+
   return (
     <Stack
       spacing={2}
@@ -80,7 +106,7 @@ export const Register = () => {
       <Heading as='h2' size='md'>
         Registration Form
       </Heading>
-      <form autoComplete='off'>
+      <form onSubmit={onSubmit} autoComplete='off'>
         <Stack spacing={2} pt={1}>
           <FormControl className='form-control' isInvalid={!!errors.name}>
             <FormLabel htmlFor='name'>Name</FormLabel>
@@ -186,7 +212,7 @@ export const Register = () => {
             <Button
               className='btn'
               tabIndex={5}
-              isLoading={false}
+              isLoading={loading}
               type='submit'
               variantColor='green'
             >

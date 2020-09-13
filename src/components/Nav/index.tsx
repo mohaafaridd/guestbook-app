@@ -1,6 +1,6 @@
 import React, { useContext } from 'react';
 import { AuthContext } from '../../context/Auth/authContext';
-import { Grid, Heading } from '@chakra-ui/core';
+import { Button, Grid, Heading } from '@chakra-ui/core';
 import LinkButton from '../common/LinkButton';
 
 export const Nav = () => {
@@ -33,7 +33,18 @@ export const Nav = () => {
         </Grid>
       )}
 
-      {authenticated && <Heading>Welcome {user?.name}</Heading>}
+      {authenticated && (
+        <Grid
+          templateColumns={['1fr', '1fr 1fr']}
+          templateRows={['1fr 1fr', '1fr']}
+          gap={2}
+        >
+          <Heading size='sm'>Welcome {user?.name}</Heading>
+          <Button variant='outline' variantColor='red'>
+            Logout
+          </Button>
+        </Grid>
+      )}
     </Grid>
   );
 };
