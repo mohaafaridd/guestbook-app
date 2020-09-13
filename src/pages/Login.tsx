@@ -10,7 +10,6 @@ import {
   Input,
   InputGroup,
   InputLeftElement,
-  Progress,
   Stack,
   useToast,
 } from '@chakra-ui/core';
@@ -18,10 +17,8 @@ import React, { useContext, useState } from 'react';
 import { useForm } from 'react-hook-form';
 import { Redirect } from 'react-router-dom';
 import validator from 'validator';
-import zxcvbn from 'zxcvbn';
 import LinkButton from '../components/common/LinkButton';
 import { AuthContext } from '../context/Auth/authContext';
-import { CREATE_USER } from '../graphql/user/CreateUserMutation';
 import { LOGIN_USER } from '../graphql/user/LoginUserMutation';
 
 type FormData = {
