@@ -13,16 +13,20 @@ export const Nav = () => {
       mx='auto'
       templateColumns={['1fr', '2fr 1fr', '2fr 1fr']}
       gap={2}
-      p={2}
+      py={2}
     >
-      <Heading size='lg'>Farid's Guestbook</Heading>
+      <Heading size='lg' mx={['mx-auto', 0]}>
+        Farid's Guestbook
+      </Heading>
       {!authenticated && (
         <Grid
           templateColumns={['1fr', '1fr 1fr']}
           templateRows={['1fr 1fr', '1fr']}
           gap={2}
         >
-          <LinkButton to='/login'>Login</LinkButton>
+          <LinkButton variant='ghost' to='/login'>
+            Login
+          </LinkButton>
           <LinkButton to='/register' variantColor='teal'>
             Register
           </LinkButton>

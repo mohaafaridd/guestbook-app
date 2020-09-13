@@ -5,13 +5,11 @@ import { CSSReset, ThemeProvider } from '@chakra-ui/core';
 import { Context } from './context';
 
 ReactDOM.render(
-  <React.StrictMode>
-    <ThemeProvider>
-      <CSSReset />
-      <Context>
-        <App />
-      </Context>
-    </ThemeProvider>
-  </React.StrictMode>,
+  <ThemeProvider>
+    <CSSReset />
+    <Context>
+      <App />
+    </Context>
+  </ThemeProvider>,
   document.getElementById('root')
 );
