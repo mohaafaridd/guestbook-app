@@ -4,7 +4,7 @@ import { Button, Grid, Heading } from '@chakra-ui/core';
 import LinkButton from '../common/LinkButton';
 
 export const Nav = () => {
-  const { authenticated, user } = useContext(AuthContext);
+  const { authenticated, user, logout } = useContext(AuthContext);
 
   return (
     <Grid
@@ -24,7 +24,7 @@ export const Nav = () => {
           templateRows={['1fr 1fr', '1fr']}
           gap={2}
         >
-          <LinkButton variant='ghost' to='/login'>
+          <LinkButton variant='outline' to='/login'>
             Login
           </LinkButton>
           <LinkButton to='/register' variantColor='teal'>
@@ -38,9 +38,16 @@ export const Nav = () => {
           templateColumns={['1fr', '1fr 1fr']}
           templateRows={['1fr 1fr', '1fr']}
           gap={2}
+          alignItems='center'
         >
           <Heading size='sm'>Welcome {user?.name}</Heading>
-          <Button variant='outline' variantColor='red'>
+          <Button
+            onClick={() => {
+              logout();
+            }}
+            variant='outline'
+            variantColor='red'
+          >
             Logout
           </Button>
         </Grid>
