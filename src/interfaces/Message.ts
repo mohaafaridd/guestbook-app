@@ -5,6 +5,7 @@ export interface Message {
   content: string;
   author: User;
   parent?: Message;
+  replies: Message[];
   createdAt: Date;
   updatedAt: Date;
 }

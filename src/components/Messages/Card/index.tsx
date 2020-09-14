@@ -3,6 +3,7 @@ import React from 'react';
 import { Message } from '../../../interfaces/Message';
 import LinkButton from '../../common/LinkButton';
 import moment from 'moment';
+import { RepliesList } from '../../Reply/List';
 
 interface MessageCardArgs {
   message: Message;
@@ -32,6 +33,8 @@ export const MessageCard = ({ message }: MessageCardArgs) => {
       </Text>
 
       <Text>{message.content}</Text>
+
+      {message.replies.length && <RepliesList messages={message.replies} />}
     </Box>
   );
 };

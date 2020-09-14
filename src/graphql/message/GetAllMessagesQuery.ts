@@ -12,6 +12,17 @@ export const FIND_ALL_MESSAGES = gql`
         name
         email
       }
+
+      replies {
+        _id
+        content
+        author {
+          _id
+          name
+        }
+        createdAt
+        updatedAt
+      }
     }
   }
 `;
