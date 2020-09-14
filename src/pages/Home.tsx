@@ -1,11 +1,15 @@
 import { useQuery } from '@apollo/client';
+import { Stack } from '@chakra-ui/core';
 import React, { useContext, useEffect } from 'react';
+import { MessageForm } from '../components/Messages/Form';
 import { MessageList } from '../components/Messages/List';
+import { AuthContext } from '../context/Auth/authContext';
 import { MessageContext } from '../context/Message/messageContext';
 import { FIND_ALL_MESSAGES } from '../graphql/message/GetAllMessagesQuery';
 
 export const Home = () => {
   const { setMessages } = useContext(MessageContext);
+  const { authenticated } = useContext(AuthContext);
   const { data, loading } = useQuery(FIND_ALL_MESSAGES);
 
   useEffect(() => {
@@ -16,5 +20,10 @@ export const Home = () => {
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [data]);
 
-  return <MessageList loading={loading} />;
+  return (
+    <Stack>
+      {authenticated && <MessageForm />}
+      <MessageList loading={loading} />
+    </Stack>
+  );
 };
