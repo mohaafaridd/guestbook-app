@@ -1,23 +1,9 @@
-import React, { useContext } from 'react';
 import { useMutation } from '@apollo/client';
-import {
-  Button,
-  Flex,
-  FormControl,
-  FormErrorMessage,
-  FormLabel,
-  Heading,
-  IconButton,
-  Input,
-  InputGroup,
-  InputLeftElement,
-  Stack,
-  Textarea,
-  useToast,
-} from '@chakra-ui/core';
+import { Button, FormControl, Textarea, useToast } from '@chakra-ui/core';
+import React, { useContext } from 'react';
 import { useForm } from 'react-hook-form';
-import { CREATE_MESSAGE } from '../../../graphql/message/CreateMessageMutation';
 import { MessageContext } from '../../../context/Message/messageContext';
+import { CREATE_MESSAGE } from '../../../graphql/message/CreateMessageMutation';
 
 type FormData = {
   content: string;

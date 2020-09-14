@@ -1,4 +1,4 @@
-import { Grid, Stack } from '@chakra-ui/core';
+import { Grid } from '@chakra-ui/core';
 import React, { useContext } from 'react';
 import { MessageContext } from '../../../context/Message/messageContext';
 import { MessageCard } from '../Card';

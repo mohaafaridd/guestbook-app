@@ -12,12 +12,8 @@ const createApolloClient = (token?: string) =>
   });
 
 export const Apollo: FC = ({ children }) => {
-  const { token, getUser } = useContext(AuthContext);
+  const { token } = useContext(AuthContext);
   const [client, setClient] = useState(createApolloClient(token));
-
-  useEffect(() => {
-    getUser();
-  }, []);
 
   useEffect(() => {
     setClient(createApolloClient(token));
