@@ -6,7 +6,6 @@ import { AuthContext } from '../../../context/Auth/authContext';
 import { MessageContext } from '../../../context/Message/messageContext';
 import { DELETE_MESSAGE } from '../../../graphql/message/DeleteMessageMutation';
 import { Message } from '../../../interfaces/Message';
-import LinkButton from '../../common/LinkButton';
 import { ReplyForm } from '../../Reply/Form';
 import { RepliesList } from '../../Reply/List';
 
@@ -72,15 +71,9 @@ export const MessageCard = ({ message }: MessageCardArgs) => {
         templateColumns={['1fr', 'repeat(2, auto)']}
       >
         <Box>
-          <LinkButton
-            to={`/users/${message.author._id}`}
-            color='gray.700'
-            fontWeight='semibold'
-            variant='link'
-            fontSize={14}
-          >
+          <Text color='gray.700' fontWeight='semibold' fontSize={14}>
             {message.author.name}
-          </LinkButton>
+          </Text>
           <Text fontSize={12} color='gray.500'>
             {moment(message.createdAt).format('DD-MM-YYYY hh:mm A')}
           </Text>

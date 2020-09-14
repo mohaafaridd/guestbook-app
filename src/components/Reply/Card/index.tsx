@@ -6,7 +6,6 @@ import { AuthContext } from '../../../context/Auth/authContext';
 import { MessageContext } from '../../../context/Message/messageContext';
 import { DELETE_MESSAGE } from '../../../graphql/message/DeleteMessageMutation';
 import { Message } from '../../../interfaces/Message';
-import LinkButton from '../../common/LinkButton';
 
 interface ReplyCardArgs {
   reply: Message;
@@ -65,15 +64,9 @@ export const ReplyCard = ({ reply }: ReplyCardArgs) => {
         templateColumns={['1fr', 'repeat(2, auto)']}
       >
         <Box>
-          <LinkButton
-            to={`/users/${reply.author._id}`}
-            color='gray.700'
-            fontWeight='semibold'
-            variant='link'
-            fontSize={14}
-          >
+          <Text color='gray.700' fontWeight='semibold' fontSize={14}>
             {reply.author.name}
-          </LinkButton>
+          </Text>
           <Text fontSize={12} color='gray.500'>
             {moment(reply.createdAt).format('DD-MM-YYYY hh:mm A')}
           </Text>
