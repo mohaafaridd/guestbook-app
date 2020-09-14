@@ -115,8 +115,6 @@ export const reducer = (state: State, action: Action): State => {
       const reply = action.payload?.message;
       if (!reply) return state;
 
-      console.log('reply', reply);
-
       const messageIndex = state.messages.findIndex(
         (message) => message._id === reply.parent?._id
       );

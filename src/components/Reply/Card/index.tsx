@@ -23,6 +23,10 @@ export const ReplyCard = ({ reply }: ReplyCardArgs) => {
 
   const [deleteReply, { loading: deleteLoading }] = useMutation(DELETE_MESSAGE);
 
+  const onEdit = () => {
+    setMessage(reply);
+  };
+
   const onDelete = async () => {
     try {
       const variables = {
@@ -86,7 +90,7 @@ export const ReplyCard = ({ reply }: ReplyCardArgs) => {
               aria-label='edit message'
               variantColor='green'
               icon='edit'
-              // onClick={onEdit}
+              onClick={onEdit}
               isDisabled={contextReply?._id === reply._id}
             />
             <IconButton
