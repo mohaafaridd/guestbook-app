@@ -20,6 +20,10 @@ export const MessageState: FC = ({ children }) => {
       dispatch({ type: 'ADD_MESSAGES', payload: { messages } });
     },
 
+    setMessage: (message) => {
+      dispatch({ type: 'SET_MESSAGE', payload: { message } });
+    },
+
     setMessages: (messages) => {
       dispatch({ type: 'SET_MESSAGES', payload: { messages } });
     },

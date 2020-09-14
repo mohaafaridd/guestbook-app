@@ -8,6 +8,7 @@ export interface State {
 export interface Methods {
   addMessage(message: Message): void;
   addMessages(messages: Message[]): void;
+  setMessage(message: Message): void;
   setMessages(messages: Message[]): void;
   updateMessage(message: Message): void;
   deleteMessage(message: Message): void;
@@ -24,6 +25,7 @@ export interface Action {
 export type ActionTypes =
   | 'ADD_MESSAGE'
   | 'ADD_MESSAGES'
+  | 'SET_MESSAGE'
   | 'SET_MESSAGES'
   | 'UPDATE_MESSAGE'
   | 'DELETE_MESSAGE'
