@@ -6,13 +6,13 @@ import { Context } from './context';
 import { Apollo } from './Apollo';
 
 ReactDOM.render(
-  <Apollo>
-    <ThemeProvider>
-      <CSSReset />
-      <Context>
+  <Context>
+    <Apollo>
+      <ThemeProvider>
+        <CSSReset />
         <App />
-      </Context>
-    </ThemeProvider>
-  </Apollo>,
+      </ThemeProvider>
+    </Apollo>
+  </Context>,
   document.getElementById('root')
 );
