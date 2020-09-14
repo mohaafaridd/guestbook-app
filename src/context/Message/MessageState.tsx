@@ -31,6 +31,18 @@ export const MessageState: FC = ({ children }) => {
     deleteMessage: (message) => {
       dispatch({ type: 'DELETE_MESSAGE', payload: { message } });
     },
+
+    addReply: (reply) => {
+      dispatch({ type: 'ADD_REPLY', payload: { message: reply } });
+    },
+
+    updateReply: (reply) => {
+      dispatch({ type: 'UPDATE_REPLY', payload: { message: reply } });
+    },
+
+    deleteReply: (reply) => {
+      dispatch({ type: 'DELETE_REPLY', payload: { message: reply } });
+    },
   };
 
   return (

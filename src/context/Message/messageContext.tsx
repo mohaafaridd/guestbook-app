@@ -8,6 +8,9 @@ export const MessageContext = createContext<State & Methods>({
   setMessages: () => undefined,
   deleteMessage: () => undefined,
   updateMessage: () => undefined,
+  addReply: () => undefined,
+  updateReply: () => undefined,
+  deleteReply: () => undefined,
 });
 
 export const { Provider: MessageProvider, Consumer } = MessageContext;

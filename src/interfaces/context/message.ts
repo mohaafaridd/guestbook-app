@@ -11,6 +11,9 @@ export interface Methods {
   setMessages(messages: Message[]): void;
   updateMessage(message: Message): void;
   deleteMessage(message: Message): void;
+  addReply(message: Message): void;
+  updateReply(message: Message): void;
+  deleteReply(message: Message): void;
 }
 
 export interface Action {
@@ -23,4 +26,7 @@ export type ActionTypes =
   | 'ADD_MESSAGES'
   | 'SET_MESSAGES'
   | 'UPDATE_MESSAGE'
-  | 'DELETE_MESSAGE';
+  | 'DELETE_MESSAGE'
+  | 'ADD_REPLY'
+  | 'UPDATE_REPLY'
+  | 'DELETE_REPLY';

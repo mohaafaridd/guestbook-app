@@ -12,6 +12,7 @@ export const reducer = (state: State, action: Action): State => {
       }
       return state;
     }
+
     case 'ADD_MESSAGES': {
       const newMessages = action.payload?.messages;
       if (newMessages?.length) {
@@ -54,6 +55,71 @@ export const reducer = (state: State, action: Action): State => {
       const messages = state.messages.filter(
         (message) => message._id !== deletedMessage._id
       );
+
+      return { messages };
+    }
+
+    case 'ADD_REPLY': {
+      const reply = action.payload?.message;
+      if (!reply) return state;
+
+      const messageIndex = state.messages.findIndex(
+        (message) => message._id === reply.parent?._id
+      );
+
+      if (messageIndex < 0) return state;
+
+      const message = state.messages[messageIndex];
+      message.replies.push(reply);
+
+      const messages = state.messages;
+      messages[messageIndex] = message;
+
+      return { messages };
+    }
+
+    case 'UPDATE_REPLY': {
+      const reply = action.payload?.message;
+      if (!reply) return state;
+
+      const messageIndex = state.messages.findIndex(
+        (message) => message._id === reply.parent?._id
+      );
+
+      if (messageIndex < 0) return state;
+
+      const message = state.messages[messageIndex];
+
+      const replyIndex = message.replies.findIndex((r) => r._id === reply._id);
+      if (replyIndex < 0) return state;
+
+      message.replies[replyIndex] = reply;
+
+      const messages = state.messages;
+      messages[messageIndex] = message;
+
+      return { messages };
+    }
+
+    case 'DELETE_REPLY': {
+      const reply = action.payload?.message;
+      if (!reply) return state;
+
+      const messageIndex = state.messages.findIndex(
+        (message) => message._id === reply.parent?._id
+      );
+
+      if (messageIndex < 0) return state;
+
+      const message = state.messages[messageIndex];
+
+      const replyIndex = message.replies.findIndex((r) => r._id === reply._id);
+      if (replyIndex < 0) return state;
+
+      message.replies.splice(replyIndex, 1);
+
+      const messages = state.messages;
+      messages[messageIndex] = message;
 
       return { messages };
     }
