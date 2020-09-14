@@ -1,8 +1,10 @@
 import { Box, Text } from '@chakra-ui/core';
 import moment from 'moment';
-import React from 'react';
+import React, { useContext } from 'react';
+import { AuthContext } from '../../../context/Auth/authContext';
 import { Message } from '../../../interfaces/Message';
 import LinkButton from '../../common/LinkButton';
+import { ReplyForm } from '../../Reply/Form';
 import { RepliesList } from '../../Reply/List';
 
 interface MessageCardArgs {
@@ -10,6 +12,7 @@ interface MessageCardArgs {
 }
 
 export const MessageCard = ({ message }: MessageCardArgs) => {
+  const { authenticated } = useContext(AuthContext);
   return (
     <Box
       border='1px'
@@ -37,6 +40,7 @@ export const MessageCard = ({ message }: MessageCardArgs) => {
         {message.content}
       </Text>
 
+      {authenticated && <ReplyForm parent={message} />}
       <RepliesList replies={message.replies} />
     </Box>
   );
