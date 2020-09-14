@@ -1,6 +1,6 @@
 import { useMutation } from '@apollo/client';
 import { Button, FormControl, Textarea, useToast } from '@chakra-ui/core';
-import React, { useContext } from 'react';
+import React, { useContext, useEffect } from 'react';
 import { useForm } from 'react-hook-form';
 import { MessageContext } from '../../../context/Message/messageContext';
 import { CREATE_MESSAGE } from '../../../graphql/message/CreateMessageMutation';
@@ -10,10 +10,30 @@ type FormData = {
 };
 
 export const MessageForm = () => {
-  const { addMessage } = useContext(MessageContext);
-  const { register, handleSubmit, errors } = useForm<FormData>();
+  const { addMessage, message: contextMessage, setMessage } = useContext(
+    MessageContext
+  );
+  const {
+    register,
+    handleSubmit,
+    errors,
+    getValues,
+    setValue,
+    watch,
+  } = useForm<FormData>();
   const toast = useToast();
-  const [createMessage, { loading }] = useMutation(CREATE_MESSAGE);
+  const [createMessage, { loading: creationLoading }] = useMutation(
+    CREATE_MESSAGE
+  );
+
+  useEffect(() => {
+    setValue('content', contextMessage?.content);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [contextMessage]);
+
+  const onExitEditMode = () => {
+    setMessage();
+  };
 
   const onSubmit = handleSubmit(async (args) => {
     const variables = {
@@ -23,15 +43,18 @@ export const MessageForm = () => {
     };
 
     try {
-      const { data } = await createMessage({ variables });
-      const message = data.createMessage;
-      toast({
-        description: 'Message Created',
-        status: 'success',
-        duration: 1500,
-        position: 'bottom-left',
-      });
-      addMessage(message);
+      if (MessageContext) {
+      } else {
+        const { data } = await createMessage({ variables });
+        const message = data.createMessage;
+        toast({
+          description: 'Message Created',
+          status: 'success',
+          duration: 1500,
+          position: 'bottom-left',
+        });
+        addMessage(message);
+      }
     } catch (error) {
       toast({
         description: 'Could not submit message',
@@ -52,12 +75,29 @@ export const MessageForm = () => {
         <Button
           className='btn'
           tabIndex={5}
-          isLoading={loading}
+          isLoading={creationLoading}
           type='submit'
           variantColor='green'
+          isDisabled={watch().content?.length === 0}
         >
-          Submit
+          {contextMessage ? 'Edit' : 'Submit'}
         </Button>
+
+        {contextMessage && (
+          <Button
+            className='btn'
+            tabIndex={5}
+            isLoading={loading}
+            onClick={() => {
+              onExitEditMode();
+            }}
+            variant='outline'
+            variantColor='red'
+            isDisabled={watch().content?.length === 0}
+          >
+            Exit
+          </Button>
+        )}
       </form>
     </div>
   );

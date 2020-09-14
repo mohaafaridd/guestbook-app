@@ -17,7 +17,11 @@ interface MessageCardArgs {
 export const MessageCard = ({ message }: MessageCardArgs) => {
   const toast = useToast();
   const { authenticated, user } = useContext(AuthContext);
-  const { deleteMessage: removeMessage } = useContext(MessageContext);
+  const {
+    deleteMessage: removeMessage,
+    setMessage,
+    message: contextMessage,
+  } = useContext(MessageContext);
   const [deleteMessage, { loading: deleteLoading }] = useMutation(
     DELETE_MESSAGE
   );
@@ -44,6 +48,10 @@ export const MessageCard = ({ message }: MessageCardArgs) => {
         position: 'bottom-left',
       });
     }
+  };
+
+  const onEdit = () => {
+    setMessage(message);
   };
 
   return (
@@ -89,6 +97,8 @@ export const MessageCard = ({ message }: MessageCardArgs) => {
               aria-label='edit message'
               variantColor='green'
               icon='edit'
+              onClick={onEdit}
+              isDisabled={!!contextMessage}
             />
             <IconButton
               onClick={onDelete}

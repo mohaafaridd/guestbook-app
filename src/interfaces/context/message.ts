@@ -8,7 +8,7 @@ export interface State {
 export interface Methods {
   addMessage(message: Message): void;
   addMessages(messages: Message[]): void;
-  setMessage(message: Message): void;
+  setMessage(message?: Message): void;
   setMessages(messages: Message[]): void;
   updateMessage(message: Message): void;
   deleteMessage(message: Message): void;
