@@ -17,7 +17,6 @@ export const Apollo: FC = ({ children }) => {
 
   useEffect(() => {
     setClient(createApolloClient(token));
-    console.log('token', token);
   }, [token]);
 
   return <ApolloProvider client={client}>{children}</ApolloProvider>;

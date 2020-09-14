@@ -15,9 +15,11 @@ export const Nav = () => {
       gap={2}
       py={2}
     >
-      <Heading size='lg' mx={['mx-auto', 0]}>
-        Farid's Guestbook
-      </Heading>
+      <LinkButton to='/' w='auto' variant='ghost'>
+        <Heading size='lg' mx={['mx-auto', 0]}>
+          Farid's Guestbook
+        </Heading>
+      </LinkButton>
       {!authenticated && (
         <Grid
           templateColumns={['1fr', '1fr 1fr']}

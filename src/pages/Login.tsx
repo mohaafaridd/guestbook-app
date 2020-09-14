@@ -75,12 +75,14 @@ export const Login = () => {
 
   return (
     <Stack
+      border='1px'
+      borderColor='gray.200'
+      borderRadius='md'
+      rounded='lg'
       spacing={2}
       w={['100%', '80%', '70%', '20%']}
       p={5}
-      border={1}
       boxShadow='md'
-      rounded='md'
       m='auto'
     >
       <Heading as='h2' size='md'>

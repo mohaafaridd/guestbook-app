@@ -1,5 +1,12 @@
 import { useMutation } from '@apollo/client';
-import { Button, FormControl, Textarea, useToast } from '@chakra-ui/core';
+import {
+  Button,
+  Flex,
+  FormControl,
+  Grid,
+  Textarea,
+  useToast,
+} from '@chakra-ui/core';
 import React, { useContext, useEffect, useState } from 'react';
 import { useForm } from 'react-hook-form';
 import { MessageContext } from '../../../context/Message/messageContext';
@@ -88,35 +95,45 @@ export const MessageForm = () => {
   return (
     <div>
       <form onSubmit={onSubmit}>
-        <FormControl className='form-control' isInvalid={!!errors.content}>
-          <Textarea name='content' placeholder='message' ref={register()} />
-        </FormControl>
+        <Grid gap={2}>
+          <FormControl className='form-control' isInvalid={!!errors.content}>
+            <Textarea
+              name='content'
+              placeholder='Type your message...'
+              ref={register()}
+            />
+          </FormControl>
 
-        <Button
-          className='btn'
-          tabIndex={5}
-          isLoading={creationLoading || updateLoading}
-          type='submit'
-          variantColor='green'
-          isDisabled={watch().content?.length === 0}
-        >
-          {editMode ? 'Edit' : 'Submit'}
-        </Button>
+          <Flex justifyContent='flex-end'>
+            <Button
+              className='btn'
+              tabIndex={5}
+              isLoading={creationLoading || updateLoading}
+              type='submit'
+              variantColor='green'
+              isDisabled={watch().content?.length === 0}
+            >
+              {editMode ? 'Edit' : 'Submit'}
+            </Button>
 
-        {editMode && (
-          <Button
-            className='btn'
-            tabIndex={5}
-            onClick={() => {
-              onExitEditMode();
-            }}
-            variant='outline'
-            variantColor='red'
-            isDisabled={watch().content?.length === 0}
-          >
-            Exit
-          </Button>
-        )}
+            {editMode && (
+              <Button
+                className='btn'
+                mt={[2, 0]}
+                ml={[0, 2]}
+                tabIndex={5}
+                onClick={() => {
+                  onExitEditMode();
+                }}
+                variant='outline'
+                variantColor='red'
+                isDisabled={watch().content?.length === 0}
+              >
+                Exit
+              </Button>
+            )}
+          </Flex>
+        </Grid>
       </form>
     </div>
   );
