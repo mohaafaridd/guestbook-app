@@ -1,5 +1,5 @@
 import { useQuery } from '@apollo/client';
-import { Stack } from '@chakra-ui/core';
+import { Grid, Stack } from '@chakra-ui/core';
 import React, { useContext, useEffect } from 'react';
 import { MessageForm } from '../components/Messages/Form';
 import { MessageList } from '../components/Messages/List';
@@ -21,9 +21,9 @@ export const Home = () => {
   }, [data]);
 
   return (
-    <Stack>
+    <Grid gap={2} w={['100%', '80%', '70%', '50%']} mx='auto'>
       {authenticated && <MessageForm />}
       <MessageList loading={loading} />
-    </Stack>
+    </Grid>
   );
 };

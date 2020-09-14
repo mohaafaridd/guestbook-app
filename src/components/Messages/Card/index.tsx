@@ -15,8 +15,9 @@ export const MessageCard = ({ message }: MessageCardArgs) => {
       border='1px'
       borderRadius='md'
       borderColor='gray.200'
-      p={2}
-      rounded='md'
+      px={4}
+      py={2}
+      rounded='lg'
       boxShadow='sm'
     >
       <LinkButton
@@ -32,7 +33,9 @@ export const MessageCard = ({ message }: MessageCardArgs) => {
         {moment(message.createdAt).format('DD-MM-YYYY hh:mm A')}
       </Text>
 
-      <Text>{message.content}</Text>
+      <Text py={4} px={2}>
+        {message.content}
+      </Text>
 
       <Text>{message.replies?.length || 0} Replies</Text>
 
