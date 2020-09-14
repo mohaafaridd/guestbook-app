@@ -1,4 +1,4 @@
-import { State, Action } from '../../interfaces/context/message';
+import { Action, State } from '../../interfaces/context/message';
 
 export const reducer = (state: State, action: Action): State => {
   switch (action.type) {

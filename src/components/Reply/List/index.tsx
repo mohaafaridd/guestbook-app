@@ -1,16 +1,17 @@
 import { Stack } from '@chakra-ui/core';
 import React from 'react';
 import { Message } from '../../../interfaces/Message';
+import { ReplyCard } from '../Card';
 
 interface RepliesLists {
-  messages: Message[];
+  replies: Message[];
 }
 
-export const RepliesList = ({ messages }: RepliesLists) => {
+export const RepliesList = ({ replies }: RepliesLists) => {
   return (
-    <Stack>
-      {messages.map((message, i) => (
-        <div key={i}>{message.content}</div>
+    <Stack spacing={2}>
+      {replies.map((reply, i) => (
+        <ReplyCard reply={reply} key={i} />
       ))}
     </Stack>
   );

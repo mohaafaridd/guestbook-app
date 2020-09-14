@@ -3,13 +3,12 @@ import moment from 'moment';
 import React from 'react';
 import { Message } from '../../../interfaces/Message';
 import LinkButton from '../../common/LinkButton';
-import { RepliesList } from '../../Reply/List';
 
-interface MessageCardArgs {
-  message: Message;
+interface ReplyCardArgs {
+  reply: Message;
 }
 
-export const MessageCard = ({ message }: MessageCardArgs) => {
+export const ReplyCard = ({ reply }: ReplyCardArgs) => {
   return (
     <Box
       border='1px'
@@ -17,26 +16,21 @@ export const MessageCard = ({ message }: MessageCardArgs) => {
       borderColor='gray.200'
       p={2}
       rounded='md'
-      boxShadow='sm'
     >
       <LinkButton
-        to={`/users/${message.author._id}`}
+        to={`/users/${reply.author._id}`}
         color='gray.700'
         fontWeight='semibold'
         variant='link'
         fontSize={14}
       >
-        {message.author.name}
+        {reply.author.name}
       </LinkButton>
       <Text fontSize={12} color='gray.500'>
-        {moment(message.createdAt).format('DD-MM-YYYY hh:mm A')}
+        {moment(reply.createdAt).format('DD-MM-YYYY hh:mm A')}
       </Text>
 
-      <Text>{message.content}</Text>
-
-      <Text>{message.replies.length} Replies</Text>
-
-      {message.replies.length && <RepliesList replies={message.replies} />}
+      {reply.content}
     </Box>
   );
 };
