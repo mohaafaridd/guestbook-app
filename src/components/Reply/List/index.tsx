@@ -5,7 +5,6 @@ import {
   AccordionItem,
   AccordionPanel,
   Box,
-  Stack,
 } from '@chakra-ui/core';
 import React from 'react';
 import { Message } from '../../../interfaces/Message';

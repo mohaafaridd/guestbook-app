@@ -91,22 +91,24 @@ export const reducer = (state: State, action: Action): State => {
     case 'UPDATE_REPLY': {
       const reply = action.payload?.message;
       if (!reply) return state;
-
+      console.log('reply', reply);
       const messageIndex = state.messages.findIndex(
         (message) => message._id === reply.parent?._id
       );
+      console.log('messageIndex', messageIndex);
 
-      if (messageIndex < 0) return state;
+      const parent: Message = JSON.parse(
+        JSON.stringify(state.messages[messageIndex])
+      );
 
-      const message = state.messages[messageIndex];
+      const replyIndex = parent.replies.findIndex((r) => r._id === reply._id);
 
-      const replyIndex = message.replies.findIndex((r) => r._id === reply._id);
       if (replyIndex < 0) return state;
+      parent.replies[replyIndex] = reply;
 
-      message.replies[replyIndex] = reply;
+      const messages: Message[] = JSON.parse(JSON.stringify(state.messages));
 
-      const messages = state.messages;
-      messages[messageIndex] = message;
+      messages[messageIndex] = parent;
 
       return { messages };
     }

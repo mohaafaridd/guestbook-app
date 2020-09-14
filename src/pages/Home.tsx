@@ -1,5 +1,5 @@
 import { useQuery } from '@apollo/client';
-import { Grid, Stack } from '@chakra-ui/core';
+import { Grid } from '@chakra-ui/core';
 import React, { useContext, useEffect } from 'react';
 import { MessageForm } from '../components/Messages/Form';
 import { MessageList } from '../components/Messages/List';

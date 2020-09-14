@@ -13,6 +13,10 @@ export const UPDATE_MESSAGE = gql`
         email
       }
 
+      parent {
+        _id
+      }
+
       replies {
         _id
         content

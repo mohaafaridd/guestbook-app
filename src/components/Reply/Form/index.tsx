@@ -27,9 +27,12 @@ export const ReplyForm = ({ parent }: ReplyFormArgs) => {
   const [updateReply, { loading: updateLoading }] = useMutation(UPDATE_MESSAGE);
   const { register, handleSubmit, errors, setValue } = useForm<FormData>();
   const toast = useToast();
-  const { addReply, message: contextReply, setMessage: setReply } = useContext(
-    MessageContext
-  );
+  const {
+    addReply,
+    updateReply: refreshReply,
+    message: contextReply,
+    setMessage: setReply,
+  } = useContext(MessageContext);
   const [editMode, setEditMode] = useState(false);
 
   useEffect(() => {
@@ -63,6 +66,7 @@ export const ReplyForm = ({ parent }: ReplyFormArgs) => {
       if (editMode) {
         const { data } = await updateReply({ variables });
         const reply = data.updateMessage;
+        refreshReply(reply);
         toast({
           description: 'Message Updated',
           status: 'success',
@@ -112,7 +116,7 @@ export const ReplyForm = ({ parent }: ReplyFormArgs) => {
 
         <IconButton
           type='submit'
-          isLoading={loading}
+          isLoading={loading || updateLoading}
           variantColor='green'
           aria-label='Submit reply'
           icon={MdSend}
