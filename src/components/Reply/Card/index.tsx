@@ -15,7 +15,11 @@ interface ReplyCardArgs {
 export const ReplyCard = ({ reply }: ReplyCardArgs) => {
   const toast = useToast();
   const { authenticated, user } = useContext(AuthContext);
-  const { setMessage, message: contextReply } = useContext(MessageContext);
+  const {
+    setMessage,
+    message: contextReply,
+    deleteReply: removeReply,
+  } = useContext(MessageContext);
 
   const [deleteReply, { loading: deleteLoading }] = useMutation(DELETE_MESSAGE);
 
@@ -27,9 +31,9 @@ export const ReplyCard = ({ reply }: ReplyCardArgs) => {
       const { data } = await deleteReply({ variables });
       const deletedReply: Message = data.deleteMessage;
       console.log('deletedReply', deletedReply);
-      // removeMessage(deletedReply);
+      removeReply(deletedReply);
       toast({
-        description: 'Message Deleted',
+        description: 'Reply Deleted',
         status: 'success',
         duration: 1500,
         position: 'bottom-left',

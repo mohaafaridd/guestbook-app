@@ -20,6 +20,9 @@ export const FIND_ALL_MESSAGES = gql`
           _id
           name
         }
+        parent {
+          _id
+        }
         createdAt
         updatedAt
       }

@@ -1,15 +1,13 @@
 import { useMutation } from '@apollo/client';
 import {
-  Button,
   FormControl,
   FormErrorMessage,
   IconButton,
   Input,
   Stack,
-  Textarea,
   useToast,
 } from '@chakra-ui/core';
-import React, { useContext } from 'react';
+import React, { useContext, useEffect, useState } from 'react';
 import { useForm } from 'react-hook-form';
 import { MdSend } from 'react-icons/md';
 import { MessageContext } from '../../../context/Message/messageContext';
@@ -27,7 +25,20 @@ export const ReplyForm = ({ parent }: ReplyFormArgs) => {
   const [createMessage, { loading }] = useMutation(CREATE_MESSAGE);
   const { register, handleSubmit, errors, setValue } = useForm<FormData>();
   const toast = useToast();
-  const { addReply } = useContext(MessageContext);
+  const { addReply, message: contextReply, setMessage: setReply } = useContext(
+    MessageContext
+  );
+  const [editMode, setEditMode] = useState(false);
+
+  useEffect(() => {
+    if (contextReply?.parent) {
+      setEditMode(true);
+      setValue('content', contextReply.content);
+    } else {
+      setEditMode(false);
+      setValue('content', '');
+    }
+  }, [contextReply]);
 
   const validation = {
     content: (value: string) => {
@@ -66,6 +77,10 @@ export const ReplyForm = ({ parent }: ReplyFormArgs) => {
     setValue('content', '');
   });
 
+  const onExitEditMode = () => {
+    setReply();
+  };
+
   return (
     <form onSubmit={onSubmit}>
       <Stack isInline spacing={2} pb={2}>
@@ -87,6 +102,19 @@ export const ReplyForm = ({ parent }: ReplyFormArgs) => {
           aria-label='Submit reply'
           icon={MdSend}
         />
+
+        {editMode && (
+          <IconButton
+            onClick={() => {
+              onExitEditMode();
+            }}
+            isLoading={loading}
+            variant='outline'
+            variantColor='red'
+            aria-label='Submit reply'
+            icon='close'
+          />
+        )}
       </Stack>
     </form>
   );
