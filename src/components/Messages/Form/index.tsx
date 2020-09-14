@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useContext } from 'react';
 import { useMutation } from '@apollo/client';
 import {
   Button,
@@ -17,12 +17,14 @@ import {
 } from '@chakra-ui/core';
 import { useForm } from 'react-hook-form';
 import { CREATE_MESSAGE } from '../../../graphql/message/CreateMessageMutation';
+import { MessageContext } from '../../../context/Message/messageContext';
 
 type FormData = {
   content: string;
 };
 
 export const MessageForm = () => {
+  const { addMessage } = useContext(MessageContext);
   const { register, handleSubmit, errors } = useForm<FormData>();
   const toast = useToast();
   const [createMessage, { loading }] = useMutation(CREATE_MESSAGE);
@@ -43,6 +45,7 @@ export const MessageForm = () => {
         duration: 1500,
         position: 'bottom-left',
       });
+      addMessage(message);
     } catch (error) {
       toast({
         description: 'Could not submit message',

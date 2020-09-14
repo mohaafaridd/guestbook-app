@@ -34,9 +34,9 @@ export const MessageCard = ({ message }: MessageCardArgs) => {
 
       <Text>{message.content}</Text>
 
-      <Text>{message.replies.length} Replies</Text>
+      <Text>{message.replies?.length || 0} Replies</Text>
 
-      {message.replies.length && <RepliesList replies={message.replies} />}
+      {message.replies?.length && <RepliesList replies={message.replies} />}
     </Box>
   );
 };

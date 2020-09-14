@@ -21,6 +21,17 @@ export const CREATE_MESSAGE = gql`
           name
         }
       }
+
+      replies {
+        _id
+        content
+        author {
+          _id
+          name
+        }
+        createdAt
+        updatedAt
+      }
     }
   }
 `;
