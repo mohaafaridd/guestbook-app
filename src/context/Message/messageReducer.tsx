@@ -64,7 +64,7 @@ export const reducer = (state: State, action: Action): State => {
         (message) => message._id !== deletedMessage._id
       );
 
-      return { messages };
+      return { ...state, messages };
     }
 
     case 'ADD_REPLY': {

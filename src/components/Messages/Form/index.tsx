@@ -1,6 +1,6 @@
 import { useMutation } from '@apollo/client';
 import { Button, FormControl, Textarea, useToast } from '@chakra-ui/core';
-import React, { useContext, useEffect } from 'react';
+import React, { useContext, useEffect, useState } from 'react';
 import { useForm } from 'react-hook-form';
 import { MessageContext } from '../../../context/Message/messageContext';
 import { CREATE_MESSAGE } from '../../../graphql/message/CreateMessageMutation';
@@ -27,9 +27,14 @@ export const MessageForm = () => {
   const [updateMessage, { loading: updateLoading }] = useMutation(
     UPDATE_MESSAGE
   );
+  const [editMode, setEditMode] = useState(false);
 
   useEffect(() => {
-    setValue('content', contextMessage?.content);
+    if (contextMessage && !contextMessage.parent) {
+      setEditMode(true);
+      setValue('content', contextMessage?.content);
+    }
+
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [contextMessage]);
 
@@ -41,12 +46,12 @@ export const MessageForm = () => {
     const variables = {
       data: {
         content: args.content,
-        ...(contextMessage && { messageId: contextMessage._id }),
+        ...(editMode && { messageId: contextMessage?._id }),
       },
     };
 
     try {
-      if (contextMessage) {
+      if (editMode) {
         const { data } = await updateMessage({ variables });
         const message = data.updateMessage;
         toast({
@@ -92,10 +97,10 @@ export const MessageForm = () => {
           variantColor='green'
           isDisabled={watch().content?.length === 0}
         >
-          {contextMessage ? 'Edit' : 'Submit'}
+          {editMode ? 'Edit' : 'Submit'}
         </Button>
 
-        {contextMessage && (
+        {editMode && (
           <Button
             className='btn'
             tabIndex={5}

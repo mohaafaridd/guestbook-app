@@ -98,7 +98,7 @@ export const MessageCard = ({ message }: MessageCardArgs) => {
               variantColor='green'
               icon='edit'
               onClick={onEdit}
-              isDisabled={!!contextMessage}
+              isDisabled={contextMessage?._id === message._id}
             />
             <IconButton
               onClick={onDelete}
@@ -109,6 +109,7 @@ export const MessageCard = ({ message }: MessageCardArgs) => {
               variant='outline'
               variantColor='red'
               icon='delete'
+              isDisabled={contextMessage?._id === message._id}
               isLoading={deleteLoading}
             />
           </Flex>
