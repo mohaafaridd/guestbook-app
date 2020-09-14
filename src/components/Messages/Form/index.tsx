@@ -33,6 +33,9 @@ export const MessageForm = () => {
     if (contextMessage && !contextMessage.parent) {
       setEditMode(true);
       setValue('content', contextMessage?.content);
+    } else {
+      setEditMode(false);
+      setValue('content', '');
     }
 
     // eslint-disable-next-line react-hooks/exhaustive-deps
