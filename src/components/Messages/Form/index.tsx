@@ -4,26 +4,28 @@ import React, { useContext, useEffect } from 'react';
 import { useForm } from 'react-hook-form';
 import { MessageContext } from '../../../context/Message/messageContext';
 import { CREATE_MESSAGE } from '../../../graphql/message/CreateMessageMutation';
+import { UPDATE_MESSAGE } from '../../../graphql/message/UpdateMessageMutation';
 
 type FormData = {
   content: string;
 };
 
 export const MessageForm = () => {
-  const { addMessage, message: contextMessage, setMessage } = useContext(
-    MessageContext
-  );
   const {
-    register,
-    handleSubmit,
-    errors,
-    getValues,
-    setValue,
-    watch,
-  } = useForm<FormData>();
+    addMessage,
+    updateMessage: refreshMessage,
+    message: contextMessage,
+    setMessage,
+  } = useContext(MessageContext);
+  const { register, handleSubmit, errors, setValue, watch } = useForm<
+    FormData
+  >();
   const toast = useToast();
   const [createMessage, { loading: creationLoading }] = useMutation(
     CREATE_MESSAGE
+  );
+  const [updateMessage, { loading: updateLoading }] = useMutation(
+    UPDATE_MESSAGE
   );
 
   useEffect(() => {
@@ -39,11 +41,21 @@ export const MessageForm = () => {
     const variables = {
       data: {
         content: args.content,
+        ...(contextMessage && { messageId: contextMessage._id }),
       },
     };
 
     try {
-      if (MessageContext) {
+      if (contextMessage) {
+        const { data } = await updateMessage({ variables });
+        const message = data.updateMessage;
+        toast({
+          description: 'Message Updated',
+          status: 'success',
+          duration: 1500,
+          position: 'bottom-left',
+        });
+        refreshMessage(message);
       } else {
         const { data } = await createMessage({ variables });
         const message = data.createMessage;
@@ -75,7 +87,7 @@ export const MessageForm = () => {
         <Button
           className='btn'
           tabIndex={5}
-          isLoading={creationLoading}
+          isLoading={creationLoading || updateLoading}
           type='submit'
           variantColor='green'
           isDisabled={watch().content?.length === 0}
@@ -87,7 +99,6 @@ export const MessageForm = () => {
           <Button
             className='btn'
             tabIndex={5}
-            isLoading={loading}
             onClick={() => {
               onExitEditMode();
             }}

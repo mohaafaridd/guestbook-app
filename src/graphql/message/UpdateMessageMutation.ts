@@ -13,13 +13,15 @@ export const UPDATE_MESSAGE = gql`
         email
       }
 
-      parent {
+      replies {
         _id
         content
         author {
           _id
           name
         }
+        createdAt
+        updatedAt
       }
     }
   }
