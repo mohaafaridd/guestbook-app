@@ -12,6 +12,7 @@ import { useForm } from 'react-hook-form';
 import { MdSend } from 'react-icons/md';
 import { MessageContext } from '../../../context/Message/messageContext';
 import { CREATE_MESSAGE } from '../../../graphql/message/CreateMessageMutation';
+import { UPDATE_MESSAGE } from '../../../graphql/message/UpdateMessageMutation';
 import { Message } from '../../../interfaces/Message';
 type FormData = {
   content: string;
@@ -23,6 +24,7 @@ interface ReplyFormArgs {
 
 export const ReplyForm = ({ parent }: ReplyFormArgs) => {
   const [createMessage, { loading }] = useMutation(CREATE_MESSAGE);
+  const [updateReply, { loading: updateLoading }] = useMutation(UPDATE_MESSAGE);
   const { register, handleSubmit, errors, setValue } = useForm<FormData>();
   const toast = useToast();
   const { addReply, message: contextReply, setMessage: setReply } = useContext(
@@ -38,6 +40,7 @@ export const ReplyForm = ({ parent }: ReplyFormArgs) => {
       setEditMode(false);
       setValue('content', '');
     }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [contextReply]);
 
   const validation = {
@@ -51,20 +54,32 @@ export const ReplyForm = ({ parent }: ReplyFormArgs) => {
     const variables = {
       data: {
         content: args.content,
-        parent: parent._id,
+        ...(!editMode && { parent: parent?._id }),
+        ...(editMode && { messageId: contextReply?._id }),
       },
     };
 
     try {
-      const { data } = await createMessage({ variables });
-      const message = data.createMessage;
-      toast({
-        description: 'Reply Created',
-        status: 'success',
-        duration: 1500,
-        position: 'bottom-left',
-      });
-      addReply(message);
+      if (editMode) {
+        const { data } = await updateReply({ variables });
+        const reply = data.updateMessage;
+        toast({
+          description: 'Message Updated',
+          status: 'success',
+          duration: 1500,
+          position: 'bottom-left',
+        });
+      } else {
+        const { data } = await createMessage({ variables });
+        const message = data.createMessage;
+        toast({
+          description: 'Reply Created',
+          status: 'success',
+          duration: 1500,
+          position: 'bottom-left',
+        });
+        addReply(message);
+      }
     } catch (error) {
       toast({
         description: 'Could not submit reply',
