@@ -1,4 +1,5 @@
 import { Action, State } from '../../interfaces/context/message';
+import { Message } from '../../interfaces/Message';
 
 export const reducer = (state: State, action: Action): State => {
   switch (action.type) {
@@ -67,13 +68,15 @@ export const reducer = (state: State, action: Action): State => {
         (message) => message._id === reply.parent?._id
       );
 
-      if (messageIndex < 0) return state;
+      const parent: Message = JSON.parse(
+        JSON.stringify(state.messages[messageIndex])
+      );
 
-      const message = state.messages[messageIndex];
-      message.replies.push(reply);
+      parent.replies.push(reply);
 
-      const messages = state.messages;
-      messages[messageIndex] = message;
+      const messages: Message[] = JSON.parse(JSON.stringify(state.messages));
+
+      messages[messageIndex] = parent;
 
       return { messages };
     }

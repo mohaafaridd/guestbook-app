@@ -9,9 +9,10 @@ import {
   Textarea,
   useToast,
 } from '@chakra-ui/core';
-import React from 'react';
+import React, { useContext } from 'react';
 import { useForm } from 'react-hook-form';
 import { MdSend } from 'react-icons/md';
+import { MessageContext } from '../../../context/Message/messageContext';
 import { CREATE_MESSAGE } from '../../../graphql/message/CreateMessageMutation';
 import { Message } from '../../../interfaces/Message';
 type FormData = {
@@ -26,6 +27,7 @@ export const ReplyForm = ({ parent }: ReplyFormArgs) => {
   const [createMessage, { loading }] = useMutation(CREATE_MESSAGE);
   const { register, handleSubmit, errors, setValue } = useForm<FormData>();
   const toast = useToast();
+  const { addReply } = useContext(MessageContext);
 
   const validation = {
     content: (value: string) => {
@@ -51,7 +53,7 @@ export const ReplyForm = ({ parent }: ReplyFormArgs) => {
         duration: 1500,
         position: 'bottom-left',
       });
-      // addMessage(message);
+      addReply(message);
     } catch (error) {
       toast({
         description: 'Could not submit reply',
